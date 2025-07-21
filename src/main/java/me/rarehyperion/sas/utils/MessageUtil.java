@@ -11,11 +11,4 @@ public class MessageUtil {
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 
-    public static String strip(final String message) {
-        if(message == null)
-            return null;
-
-        return ChatColor.stripColor(format(message));
-    }
-
 }
