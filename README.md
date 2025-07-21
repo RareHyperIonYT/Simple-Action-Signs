@@ -1,11 +1,6 @@
 # Simple Action Signs
 A powerful lightweight Minecraft plugin that allows players to create interactive action signs with optional cost requirements.
 
-## Features
-- **Interactive Action Signs**: Create signs that execute commands when right-clicked.
-- **Cost System**: Optional economy integration with customizable costs.
-
-
 ## How to use
 ### Creating Action Signs
 1. Place any sign in the world.
@@ -16,7 +11,7 @@ A powerful lightweight Minecraft plugin that allows players to create interactiv
     <description>  (optional)
     cost           (optional)
     ```
-   
+
 ### Example Sign Setup
 ```
 [teleport]
@@ -25,17 +20,6 @@ Teleport to spawn
 100
 ```
 
-### Example with placeholders
-```
-[idiot]
-say I, <player>, am an idiot.
-Insult yourself.
-```
-
-## Commands
-- `/sas reload` - Reload the plugin configuration
-  - Permission: `sas.reload`
-
 ## Permissions
 | Permission     | Description                        | Default |
 |----------------|------------------------------------|---------|
@@ -43,6 +27,9 @@ Insult yourself.
 | `sas.use`      | Use/interact with command signs    | op      |
 | `sas.reload`   | Reload plugin configuration        | op      |
 
+## Commands
+- `/sas reload` - Reload the plugin configuration
+    - Permission: `sas.reload`
 
 ## Configuration
 <details>
