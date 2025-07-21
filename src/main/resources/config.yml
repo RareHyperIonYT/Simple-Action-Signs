@@ -1,0 +1,13 @@
+# Currency symbol to display before costs on signs.
+currency-prefix: "&a$"
+
+# Command to execute when charging players for sign usage.
+# Placeholders: <player> = player name, <cost> = amount to charge.
+cost-command: "eco take <player> <cost>"
+
+# Plugin messages.
+messages:
+  action-create: "&aAction sign successfully created!"
+  action-delete: "&cAction sign successfully removed!"
+  sneak-required: "&cYou need to sneak to do this."
+  permission-use: "&cYou do not have permission to do this."

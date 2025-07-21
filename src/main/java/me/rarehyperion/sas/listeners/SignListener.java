@@ -1,0 +1,152 @@
+package me.rarehyperion.sas.listeners;
+
+import me.rarehyperion.sas.managers.ConfigManager;
+import me.rarehyperion.sas.managers.SignManager;
+import me.rarehyperion.sas.models.SignAction;
+import me.rarehyperion.sas.utils.MessageUtil;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPhysicsEvent;
+import org.bukkit.event.block.SignChangeEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
+
+public class SignListener implements Listener {
+
+    private final SignManager signManager;
+    private final ConfigManager configManager;
+
+    public SignListener(final SignManager signManager, final ConfigManager configManager) {
+        this.signManager = signManager;
+        this.configManager = configManager;
+    }
+
+    @EventHandler
+    public void onSignCreate(final SignChangeEvent event) {
+        final Player player = event.getPlayer();
+
+        if(!player.hasPermission("sas.create"))
+            return;
+
+        final String typeLine = event.getLine(0);
+        final String commandLine = event.getLine(1);
+        final String descriptionLine = event.getLine(2);
+        final String costLine = event.getLine(3);
+
+        if(typeLine == null || commandLine == null)
+            return;
+
+        if(!this.signManager.isValidFormat(typeLine))
+            return;
+
+        final int cost = this.signManager.parseCost(costLine);
+
+        this.signManager.register(event.getBlock().getLocation(), commandLine, cost);
+        this.updateDisplay(event, descriptionLine, cost);
+
+        final String createMessage = this.configManager.getActionCreateMessage();
+        if(createMessage == null) return;
+
+        player.sendMessage(createMessage);
+    }
+
+    @EventHandler
+    public void onSignClick(final PlayerInteractEvent event) {
+        final Player player = event.getPlayer();
+        final Action action = event.getAction();
+        final Block clickedBlock = event.getClickedBlock();
+
+        if(!this.isValidInteraction(action, event.getHand(), clickedBlock) || player.isSneaking())
+            return;
+
+        assert clickedBlock != null;
+        final Material blockType = clickedBlock.getType();
+        final Location location = clickedBlock.getLocation();
+
+        if(!this.signManager.isSign(blockType))
+            return;
+
+        if(!this.signManager.hasAction(location))
+            return;
+
+        if(!player.hasPermission("sas.use")) {
+            final String permissionMessage = this.configManager.getPermissionMessage();
+            if(permissionMessage != null) player.sendMessage(permissionMessage);
+            return;
+        }
+
+        final SignAction signAction = this.signManager.getAction(location);
+        this.signManager.executeAction(player, signAction);
+
+        event.setCancelled(true);
+    }
+
+    @EventHandler(priority = EventPriority.LOW)
+    public void onSignBreak(final BlockBreakEvent event) {
+        final Player player = event.getPlayer();
+        final Block block = event.getBlock();
+
+        if(!this.hasAttachedActionSign(block))
+            return;
+
+        if(player.hasPermission("sas.create") && this.signManager.isSign(block.getType())) {
+            if(player.isSneaking()) {
+                player.sendMessage(this.configManager.getActionDeleteMessage());
+                return;
+            }
+
+            player.sendMessage(this.configManager.getSneakMessage());
+        }
+
+        event.setCancelled(true);
+    }
+
+    @EventHandler(priority = EventPriority.LOW)
+    public void onBlockPhysics(final BlockPhysicsEvent event) {
+        final Block block = event.getBlock();
+
+        if(this.signManager.isSign(block.getType()) && this.signManager.hasAction(block.getLocation())) {
+            event.setCancelled(true);
+        }
+    }
+
+    private boolean hasAttachedActionSign(final Block block) {
+        for(final BlockFace face : BlockFace.values()) {
+            final Block adjacent = block.getRelative(face);
+
+            if(this.signManager.isSign(adjacent.getType()) && this.signManager.hasAction(adjacent.getLocation())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void updateDisplay(final SignChangeEvent event, final String descriptionLine, final int cost) {
+        if (descriptionLine != null) {
+            event.setLine(1, MessageUtil.format(descriptionLine));
+            event.setLine(2, "");
+        }
+
+        if (cost > 0) {
+            final String costDisplay = this.signManager.formatCostDisplay(cost);
+            event.setLine(2, MessageUtil.format(costDisplay));
+            event.setLine(3, "");
+        }
+    }
+
+    private boolean isValidInteraction(final Action action, final EquipmentSlot hand, final Block block) {
+        return action == Action.RIGHT_CLICK_BLOCK
+                && hand == EquipmentSlot.HAND
+                && block != null;
+    }
+
+}
