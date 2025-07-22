@@ -19,6 +19,10 @@ public class ConfigManager {
         this.config = this.plugin.getConfig();
     }
 
+    public boolean isEconomyEnabled() {
+        return this.config.getBoolean("economy.enabled", true);
+    }
+
     public String getCurrencyPrefix() {
         return this.config.getString("economy.prefix", "$");
     }

@@ -20,7 +20,7 @@ public final class SAS extends JavaPlugin implements Listener {
         this.saveDefaultConfig();
 
         final ConfigManager configManager = new ConfigManager(this);
-        final EconomyManager economyManager = new EconomyManager(this);
+        final EconomyManager economyManager = new EconomyManager(this, configManager);
 
         this.signManager = new SignManager(configManager, economyManager, this.getDataFolder());
         this.signManager.loadSigns();

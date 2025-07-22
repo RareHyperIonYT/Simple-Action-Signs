@@ -12,18 +12,20 @@ public class EconomyManager {
 
     private final JavaPlugin plugin;
     private final List<EconomyProvider> providers;
+    private final ConfigManager configManager;
 
     private EconomyProvider currentProvider;
     private boolean enabled;
 
-    public EconomyManager(final JavaPlugin plugin) {
+    public EconomyManager(final JavaPlugin plugin, final ConfigManager configManager) {
         this.plugin = plugin;
+        this.configManager = configManager;
         this.providers = new ArrayList<>();
         this.setup();
     }
 
     public boolean isEnabled() {
-        return this.enabled;
+        return this.enabled && this.configManager.isEconomyEnabled();
     }
 
     public String getProviderName() {
