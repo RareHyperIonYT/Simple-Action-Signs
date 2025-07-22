@@ -8,6 +8,9 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.type.Sign;
+import org.bukkit.block.data.type.WallSign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -94,10 +97,15 @@ public class SignListener implements Listener {
         final Player player = event.getPlayer();
         final Block block = event.getBlock();
 
-        if(!this.hasAttachedActionSign(block))
+        if(this.hasAttachedActionSign(block)) {
+            event.setCancelled(true);
+            return;
+        }
+
+        if(!this.signManager.isSign(block.getType()) || !this.signManager.hasAction(block.getLocation()))
             return;
 
-        if(player.hasPermission("sas.create") && this.signManager.isSign(block.getType())) {
+        if(player.hasPermission("sas.create")) {
             if(player.isSneaking()) {
                 player.sendMessage(this.configManager.getActionDeleteMessage());
                 return;
@@ -113,8 +121,13 @@ public class SignListener implements Listener {
     public void onBlockPhysics(final BlockPhysicsEvent event) {
         final Block block = event.getBlock();
 
+        if(this.signManager.isSign(event.getChangedType()))
+            return;
+
         if(this.signManager.isSign(block.getType()) && this.signManager.hasAction(block.getLocation())) {
-            event.setCancelled(true);
+            // Cancelling doesn't stop the sign from being destroyed, so just unregister it instead.
+            // It's a very unlikely situation anyway, as it's supporting block can't be destroyed.
+            this.signManager.remove(block.getLocation());
         }
     }
 
@@ -122,8 +135,19 @@ public class SignListener implements Listener {
         for(final BlockFace face : BlockFace.values()) {
             final Block adjacent = block.getRelative(face);
 
-            if(this.signManager.isSign(adjacent.getType()) && this.signManager.hasAction(adjacent.getLocation())) {
-                return true;
+            if(!this.signManager.isSign(adjacent.getType()) || !this.signManager.hasAction(adjacent.getLocation()))
+                continue;
+
+            final BlockData data = adjacent.getBlockData();
+
+            if(data instanceof WallSign sign) {
+                final BlockFace support = sign.getFacing();
+
+                if(support == face) {
+                    return true;
+                }
+            } else if(data instanceof Sign) {
+                return face == BlockFace.UP;
             }
         }
 
