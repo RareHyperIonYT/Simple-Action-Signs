@@ -90,7 +90,7 @@ public class SignManager {
     public void saveSigns() {
         try(final ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(this.signsFile))) {
             final HashMap<String, SignAction> signsToSave = new HashMap<>(this.validSigns); // Creating a copy to ensure serializability, this isn't redundant.
-            outputStream.writeObject(signsToSave);;
+            outputStream.writeObject(signsToSave);
         } catch (final IOException exception) {
             Bukkit.getLogger().log(Level.SEVERE, "Failed to save signs to file!", exception);
         }
