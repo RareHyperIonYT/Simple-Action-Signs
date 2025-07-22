@@ -53,7 +53,7 @@ public class SignListener implements Listener {
         final int cost = this.signManager.parseCost(costLine);
 
         this.signManager.register(event.getBlock().getLocation(), commandLine, cost);
-        this.updateDisplay(event, descriptionLine, cost);
+        this.updateDisplay(event, typeLine, descriptionLine, cost);
 
         final String createMessage = this.configManager.getActionCreateMessage();
         if(createMessage == null) return;
@@ -108,6 +108,7 @@ public class SignListener implements Listener {
         if(player.hasPermission("sas.create")) {
             if(player.isSneaking()) {
                 player.sendMessage(this.configManager.getActionDeleteMessage());
+                this.signManager.remove(block.getLocation());
                 return;
             }
 
@@ -154,7 +155,11 @@ public class SignListener implements Listener {
         return false;
     }
 
-    private void updateDisplay(final SignChangeEvent event, final String descriptionLine, final int cost) {
+    private void updateDisplay(final SignChangeEvent event, final String typeLine, final String descriptionLine, final int cost) {
+        if(typeLine != null) {
+            event.setLine(0, MessageUtil.formatLegacy(typeLine));
+        }
+
         if (descriptionLine != null) {
             event.setLine(1, MessageUtil.formatLegacy(descriptionLine));
             event.setLine(2, "");
