@@ -1,6 +1,6 @@
 name: SimpleActionSigns
 main: me.rarehyperion.sas.SAS
-version: '0.1.0'
+version: '0.1.1'
 api-version: '1.13'
 authors: [RareHyperIon]
 load: STARTUP
