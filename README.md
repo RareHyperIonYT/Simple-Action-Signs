@@ -5,12 +5,12 @@ A powerful lightweight Minecraft plugin that allows players to create interactiv
 ### Creating Action Signs
 1. Place any sign in the world.
 2. Write the sign text in this format:
-    ```
-    [title]        (required)
-    <command>      (required)
-    <description>  (optional)
-    cost           (optional)
-    ```
+```
+[title]        (required)
+<command>      (required)
+<description>  (optional)
+<cost / desc>  (optional)
+```
 
 ### Example Sign Setup
 ```
