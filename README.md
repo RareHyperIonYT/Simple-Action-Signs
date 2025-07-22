@@ -27,6 +27,14 @@ Teleport to spawn
 | `sas.use`      | Use/interact with command signs    | op      |
 | `sas.reload`   | Reload plugin configuration        | op      |
 
+## Placeholders
+| Placeholder      | Description                           |
+|------------------|---------------------------------------|
+| `@p`             | The players name.                     |
+| `@u`             | The players UUID.                     |
+| `@w`             | The world the player is currently in. |
+| `@x`, `@y`, `@z` | The players current position.         |
+
 ## Commands
 - `/sas reload` - Reload the plugin configuration
     - Permission: `sas.reload`
