@@ -11,4 +11,12 @@ public class MessageUtil {
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 
+    public static String formatLegacy(final String message) {
+        if(message == null)
+            return null;
+
+        final String formatted = ChatColor.translateAlternateColorCodes('&', message);
+        return ChatColor.translateAlternateColorCodes('§', formatted);
+    }
+
 }

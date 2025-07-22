@@ -156,13 +156,13 @@ public class SignListener implements Listener {
 
     private void updateDisplay(final SignChangeEvent event, final String descriptionLine, final int cost) {
         if (descriptionLine != null) {
-            event.setLine(1, MessageUtil.format(descriptionLine));
+            event.setLine(1, MessageUtil.formatLegacy(descriptionLine));
             event.setLine(2, "");
         }
 
         if (cost > 0) {
             final String costDisplay = this.signManager.formatCostDisplay(cost);
-            event.setLine(2, MessageUtil.format(costDisplay));
+            event.setLine(2, MessageUtil.formatLegacy(costDisplay));
             event.setLine(3, "");
         }
     }
