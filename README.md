@@ -44,19 +44,19 @@ Teleport to spawn
   <summary>config.yml</summary>
 
   ```yml
-# Currency symbol to display before costs on signs.
-currency-prefix: "&a$"
-
-# Command to execute when charging players for sign usage.
-# Placeholders: <player> = player name, <cost> = amount to charge.
-cost-command: "eco take <player> <cost>"
-
-# Plugin messages.
-messages:
-  action-create: "&aAction sign successfully created!"
-  action-delete: "&cAction sign successfully removed!"
-  sneak-required: "&cYou need to sneak to do this."
-  permission-use: "&cYou do not have permission to do this."
+  economy:
+    enabled: true
+    prefix: "&a$"
+  
+  # Plugin messages.
+  messages:
+    not-enough-money: "&cYou do not have enough money to do this."
+    reload-success: "&aConfiguration reloaded!"
+    action-create: "&aAction sign successfully created!"
+    action-delete: "&cAction sign successfully removed!"
+    sneak-required: "&cYou need to sneak to do this."
+    permission-use: "&cYou do not have permission to do this."
+    action-not-found: "&cThe action '<name>' does not exist. Did you mean to use a slash command?"
   ```
 
 </details>
