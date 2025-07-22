@@ -58,8 +58,10 @@ public class SignManager {
         final String command = PlaceholderUtil.replacePlaceholders(player, action.getCommand());
         final int cost = action.getCost();
 
-        Bukkit.getServer().dispatchCommand(player,
-                command.startsWith("/") ? command.substring(1) : command);
+        if(!command.isBlank()) {
+            Bukkit.getServer().dispatchCommand(player,
+                    command.startsWith("/") ? command.substring(1) : command);
+        }
 
         if(cost > 0) {
             final String costCommand = this.configManager.buildCostCommand(player.getName(), cost);
