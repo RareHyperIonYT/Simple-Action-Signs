@@ -11,13 +11,7 @@ public interface EconomyProvider {
     double getBalance(final Player player);
 
     boolean canAfford(final Player player, final double amount);
+
     boolean withdraw(final Player player, final double amount);
-
-    String formatCurrency(final double amount);
-    String getCurrencyName(final boolean plural);
-
-    default int getPriority() {
-        return 0;
-    }
 
 }

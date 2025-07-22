@@ -15,14 +15,4 @@ public class LocationUtil {
         return worldName + ":" + location.getBlockX() + "," + location.getBlockY() + "," + location.getBlockZ();
     }
 
-    public static boolean isSame(final Location location1, final Location location2) {
-        if(location1 == null || location2 == null)
-            return false;
-
-        return location1.getBlockX() == location2.getBlockX() &&
-               location1.getBlockY() == location2.getBlockY() &&
-               location1.getBlockZ() == location2.getBlockZ() &&
-               location1.getWorld()  == location2.getWorld();
-    }
-
 }

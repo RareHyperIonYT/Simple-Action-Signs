@@ -49,7 +49,6 @@ public final class SAS extends JavaPlugin implements Listener {
 
         this.signManager.saveSigns();
         this.signManager = null;
-
     }
 
 }

@@ -52,26 +52,10 @@ public class VaultEconomyProvider implements EconomyProvider {
         return response.transactionSuccess();
     }
 
-    @Override
-    public String formatCurrency(final double amount) {
-        if(!this.available) return String.valueOf(amount);
-        return this.economy.format(amount);
-    }
-
-    @Override
-    public String getCurrencyName(final boolean plural) {
-        return "";
-    }
-
-    @Override
-    public int getPriority() {
-        return 100;
-    }
-
     private void setup() {
         final Server server = this.plugin.getServer();
         final PluginManager pluginManager = server.getPluginManager();
-        final ServicesManager servicesManager = server.getServicesManager();;
+        final ServicesManager servicesManager = server.getServicesManager();
 
         if(!pluginManager.isPluginEnabled("Vault")) {
             this.available = false;
