@@ -126,7 +126,7 @@ public class SignListener implements Listener {
 
         if(this.signManager.isSign(block.getType()) && this.signManager.hasAction(block.getLocation())) {
             // Cancelling doesn't stop the sign from being destroyed, so just unregister it instead.
-            // It's a very unlikely situation anyway, as it's supporting block can't be destroyed.
+            // It's a very unlikely situation anyway, as it's supporting block can't be destroyed directly.
             this.signManager.remove(block.getLocation());
         }
     }
