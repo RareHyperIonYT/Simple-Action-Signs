@@ -40,7 +40,7 @@ public class ConfigManager {
     }
 
     public String getReloadMessage() {
-        return this.getMessage("reload");
+        return this.getMessage("reload-success");
     }
 
     public String getPermissionMessage() {
