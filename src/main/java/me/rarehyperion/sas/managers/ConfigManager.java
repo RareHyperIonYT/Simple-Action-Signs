@@ -35,12 +35,16 @@ public class ConfigManager {
         return this.getMessage("action-not-found").replace("<name>", actionName);
     }
 
-    public String getActionCreateMessage() {
-        return this.getMessage("action-create");
+    public String getSignCreateMessage() {
+        return this.getMessage("sign-create");
     }
 
-    public String getActionDeleteMessage() {
-        return this.getMessage("action-delete");
+    public String getSignEditMessage() {
+        return this.getMessage("sign-edit");
+    }
+
+    public String getSignDeleteMessage() {
+        return this.getMessage("sign-delete");
     }
 
     public String getSneakMessage() {

@@ -25,7 +25,7 @@ public final class SAS extends JavaPlugin implements Listener {
         this.signManager = new SignManager(configManager, economyManager, this.getDataFolder());
         this.signManager.loadSigns();
 
-        this.getServer().getPluginManager().registerEvents(new SignListener(this.signManager, configManager), this);
+        this.getServer().getPluginManager().registerEvents(new SignListener(this, this.signManager, configManager), this);
 
         // While Lambdas are concise and easy to use, it can hurt readability a lot.
         // Instead, use a dedicated CommandExecutor class like normal for the sake of your future self.

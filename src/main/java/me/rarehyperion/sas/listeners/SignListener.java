@@ -4,13 +4,15 @@ import me.rarehyperion.sas.managers.ConfigManager;
 import me.rarehyperion.sas.managers.SignManager;
 import me.rarehyperion.sas.models.SignAction;
 import me.rarehyperion.sas.utils.MessageUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.type.Sign;
 import org.bukkit.block.data.type.WallSign;
+import org.bukkit.block.sign.Side;
+import org.bukkit.block.sign.SignSide;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -21,13 +23,16 @@ import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class SignListener implements Listener {
 
+    private final JavaPlugin plugin;
     private final SignManager signManager;
     private final ConfigManager configManager;
 
-    public SignListener(final SignManager signManager, final ConfigManager configManager) {
+    public SignListener(final JavaPlugin plugin, final SignManager signManager, final ConfigManager configManager) {
+        this.plugin = plugin;
         this.signManager = signManager;
         this.configManager = configManager;
     }
@@ -36,7 +41,7 @@ public class SignListener implements Listener {
     public void onSignCreate(final SignChangeEvent event) {
         final Player player = event.getPlayer();
 
-        if(!player.hasPermission("sas.create"))
+        if(!player.hasPermission("sas.admin"))
             return;
 
         final String typeLine = event.getLine(0);
@@ -50,35 +55,52 @@ public class SignListener implements Listener {
         if(!this.signManager.isValidFormat(typeLine))
             return;
 
+        final Location location = event.getBlock().getLocation();
         final int cost = this.signManager.parseCost(costLine);
 
-        this.signManager.register(event.getBlock().getLocation(), commandLine, cost);
+        String createMessage = this.configManager.getSignCreateMessage();
+        if(this.signManager.hasAction(location)) createMessage = this.configManager.getSignEditMessage();
+
+        this.signManager.register(player, location, commandLine, descriptionLine, cost);
         this.updateDisplay(event, typeLine, descriptionLine, cost);
 
-        final String createMessage = this.configManager.getActionCreateMessage();
         if(createMessage == null) return;
-
         player.sendMessage(createMessage);
     }
 
     @EventHandler
     public void onSignClick(final PlayerInteractEvent event) {
         final Player player = event.getPlayer();
-        final Action action = event.getAction();
-        final Block clickedBlock = event.getClickedBlock();
+        final Block block = event.getClickedBlock();
 
-        if(!this.isValidInteraction(action, event.getHand(), clickedBlock) || player.isSneaking())
+        if(!this.isValidInteraction(event.getAction(), event.getHand(), block) || block == null)
             return;
 
-        assert clickedBlock != null;
-        final Material blockType = clickedBlock.getType();
-        final Location location = clickedBlock.getLocation();
-
-        if(!this.signManager.isSign(blockType))
+        if(!this.signManager.isSign(block.getType()) || !this.signManager.hasAction(block.getLocation()))
             return;
 
-        if(!this.signManager.hasAction(location))
+        final SignAction signAction = this.signManager.getAction(block.getLocation());
+
+        if(player.isSneaking() && player.hasPermission("sas.admin")) {
+            // Whoever decided 2 classes with the same exact name was a good idea should be fired.
+            final org.bukkit.block.Sign sign = (org.bukkit.block.Sign) block.getState();
+            final SignSide front = sign.getSide(Side.FRONT);
+
+            front.setLine(1, signAction.getCommand());
+            front.setLine(2, signAction.getDescription());
+
+            if(signAction.getCost() > 0)
+                front.setLine(3, String.valueOf(signAction.getCost()));
+
+            sign.update(true);
+
+            // You'd think you can do this without a delay after updating, but clearly I was wrong.
+            // Might switch to processing packets in the future so it's seamless for the user experience.
+            Bukkit.getScheduler().runTaskLater(this.plugin, () -> player.openSign(sign, Side.FRONT), 2L);
+
+            event.setCancelled(true);
             return;
+        }
 
         if(!player.hasPermission("sas.use")) {
             final String permissionMessage = this.configManager.getPermissionMessage();
@@ -86,7 +108,6 @@ public class SignListener implements Listener {
             return;
         }
 
-        final SignAction signAction = this.signManager.getAction(location);
         this.signManager.executeAction(player, signAction);
 
         event.setCancelled(true);
@@ -105,9 +126,9 @@ public class SignListener implements Listener {
         if(!this.signManager.isSign(block.getType()) || !this.signManager.hasAction(block.getLocation()))
             return;
 
-        if(player.hasPermission("sas.create")) {
+        if(player.hasPermission("sas.admin")) {
             if(player.isSneaking()) {
-                player.sendMessage(this.configManager.getActionDeleteMessage());
+                player.sendMessage(this.configManager.getSignDeleteMessage());
                 this.signManager.remove(block.getLocation());
                 return;
             }

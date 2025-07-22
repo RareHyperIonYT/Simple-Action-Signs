@@ -36,9 +36,9 @@ public class SignManager {
         this.signsFile = new File(dataFolder, "signs.bin");
     }
 
-    public void register(final Location location, final String command, final int cost) {
+    public void register(final Player owner, final Location location, final String command, final String description, final int cost) {
         final String key = LocationUtil.buildKey(location);
-        this.validSigns.put(key, new SignAction(command, cost));
+        this.validSigns.put(key, new SignAction(owner, command, description, cost));
         this.saveSigns();
     }
 

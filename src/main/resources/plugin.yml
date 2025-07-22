@@ -18,6 +18,6 @@ permissions:
   sas.use:
     description: "Allows clicking and executing on action signs."
     default: op
-  sas.create:
-    description: "Allows creating command signs."
+  sas.admin:
+    description: "Allows creating, editing, and destroying action signs."
     default: op

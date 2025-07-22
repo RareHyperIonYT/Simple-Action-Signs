@@ -4,10 +4,12 @@ economy:
 
 # Plugin messages.
 messages:
-  not-enough-money: "&cYou do not have enough money to do this."
-  reload-success: "&aConfiguration reloaded!"
-  action-create: "&aAction sign successfully created!"
-  action-delete: "&cAction sign successfully removed!"
+  sign-create: "&aAction Sign successfully created!"
+  sign-delete: "&cAction Sign successfully removed!"
+  sign-edit: "&eAction Sign successfully edited!"
   sneak-required: "&cYou need to sneak to do this."
   permission-use: "&cYou do not have permission to do this."
+
+  not-enough-money: "&cYou do not have enough money to do this."
   action-not-found: "&cThe action '<name>' does not exist. Did you mean to use a slash command?"
+  reload-success: "&aConfiguration reloaded!"
