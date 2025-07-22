@@ -44,7 +44,7 @@ public class SignListener implements Listener {
         final String descriptionLine = event.getLine(2);
         final String costLine = event.getLine(3);
 
-        if(typeLine == null || commandLine == null)
+        if(typeLine == null || typeLine.isBlank() || commandLine == null || commandLine.isBlank())
             return;
 
         if(!this.signManager.isValidFormat(typeLine))
