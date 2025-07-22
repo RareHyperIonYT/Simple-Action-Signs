@@ -12,3 +12,4 @@ messages:
   action-delete: "&cAction sign successfully removed!"
   sneak-required: "&cYou need to sneak to do this."
   permission-use: "&cYou do not have permission to do this."
+  action-not-found: "&cThe action '<name>' does not exist. Did you mean to use a slash command?"

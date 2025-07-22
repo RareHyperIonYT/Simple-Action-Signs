@@ -15,8 +15,8 @@ public class ConfigManager {
     }
 
     public void reload() {
-        plugin.reloadConfig();
-        this.config = plugin.getConfig();
+        this.plugin.reloadConfig();
+        this.config = this.plugin.getConfig();
     }
 
     public String getCurrencyPrefix() {
@@ -25,6 +25,10 @@ public class ConfigManager {
 
     public String getCostCommand() {
         return this.config.getString("cost-command", "eco take <player> <cost>");
+    }
+
+    public String getInvalidActionMessage(final String actionName) {
+        return this.getMessage("action-not-found").replace("<name>", actionName);
     }
 
     public String getActionCreateMessage() {
