@@ -26,7 +26,7 @@ public final class SAS extends JavaPlugin implements Listener {
             if(!sender.hasPermission("sas.reload"))
                 return true;
 
-            this.reloadConfig();
+            configManager.reload();
             sender.sendMessage(configManager.getReloadMessage());
             return true;
         });
