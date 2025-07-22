@@ -1,9 +1,9 @@
 package me.rarehyperion.sas.actions.impl;
 
-import me.rarehyperion.sas.actions.Action;
+import me.rarehyperion.sas.actions.BuiltInAction;
 import org.bukkit.entity.Player;
 
-public class SayAction extends Action {
+public class SayAction extends BuiltInAction {
 
     public SayAction() {
         super("say");

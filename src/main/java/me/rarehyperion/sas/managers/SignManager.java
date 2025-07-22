@@ -1,6 +1,6 @@
 package me.rarehyperion.sas.managers;
 
-import me.rarehyperion.sas.actions.Action;
+import me.rarehyperion.sas.actions.BuiltInAction;
 import me.rarehyperion.sas.actions.impl.SayAction;
 import me.rarehyperion.sas.models.SignAction;
 import me.rarehyperion.sas.utils.LocationUtil;
@@ -24,7 +24,7 @@ public class SignManager {
 
     private final Map<String, SignAction> validSigns = new HashMap<>();
     private final Pattern bracketPattern = Pattern.compile("\\[(.+?)]");
-    private final List<Action> actions = List.of(new SayAction());
+    private final List<BuiltInAction> actions = List.of(new SayAction());
 
     private final ConfigManager configManager;
     private final File signsFile;
@@ -86,7 +86,7 @@ public class SignManager {
                 final String name = split[0].toLowerCase();
                 boolean found = false;
 
-                for(final Action action : this.actions) {
+                for(final BuiltInAction action : this.actions) {
                     if(action.name.equals(name)) {
                         final String[] args = Arrays.copyOfRange(split, 1, split.length);
                         action.execute(player, args);

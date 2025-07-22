@@ -2,11 +2,11 @@ package me.rarehyperion.sas.actions;
 
 import org.bukkit.entity.Player;
 
-public abstract class Action {
+public abstract class BuiltInAction {
 
     public final String name;
 
-    public Action(final String name) {
+    public BuiltInAction(final String name) {
         this.name = name.toLowerCase();
     }
 
