@@ -26,11 +26,13 @@ public class SignManager {
     private final Pattern bracketPattern = Pattern.compile("\\[(.+?)]");
     private final List<BuiltInAction> actions = List.of(new SayAction());
 
+    private final EconomyManager economyManager;
     private final ConfigManager configManager;
     private final File signsFile;
 
-    public SignManager(final ConfigManager configManager, final File dataFolder) {
+    public SignManager(final ConfigManager configManager, final EconomyManager economyManager, final File dataFolder) {
         this.configManager = configManager;
+        this.economyManager = economyManager;
         this.signsFile = new File(dataFolder, "signs.bin");
     }
 
@@ -63,6 +65,13 @@ public class SignManager {
     public void executeAction(final Player player, final SignAction signAction) {
         String command = PlaceholderUtil.replacePlaceholders(player, signAction.getCommand());
         final int cost = signAction.getCost();
+
+        if(cost > 0 && this.economyManager.isEnabled()) {
+            if(!this.economyManager.withdraw(player, cost)) {
+                player.sendMessage(this.configManager.getAffordMessage());
+                return;
+            }
+        }
 
         if(!command.isBlank()) {
             final String lower = command.toLowerCase();
@@ -99,11 +108,6 @@ public class SignManager {
                     player.sendMessage(this.configManager.getInvalidActionMessage(split[0]));
                 }
             }
-        }
-
-        if(cost > 0) {
-            final String costCommand = this.configManager.buildCostCommand(player.getName(), cost);
-            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), costCommand);
         }
     }
 

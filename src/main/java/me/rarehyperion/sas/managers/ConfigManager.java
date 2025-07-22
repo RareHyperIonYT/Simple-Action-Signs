@@ -20,11 +20,11 @@ public class ConfigManager {
     }
 
     public String getCurrencyPrefix() {
-        return this.config.getString("currency-prefix", "$");
+        return this.config.getString("economy.prefix", "$");
     }
 
-    public String getCostCommand() {
-        return this.config.getString("cost-command", "eco take <player> <cost>");
+    public String getAffordMessage() {
+        return this.getMessage("not-enough-money");
     }
 
     public String getInvalidActionMessage(final String actionName) {
@@ -61,12 +61,6 @@ public class ConfigManager {
     public String getMessage(final String key) {
         final String message = this.config.getString("messages." + key);
         return message != null ? MessageUtil.format(message) : null;
-    }
-
-    public String buildCostCommand(final String playerName, final int cost) {
-        return this.getCostCommand()
-                .replace("<player>", playerName)
-                .replace("<cost>", String.valueOf(cost));
     }
 
 }

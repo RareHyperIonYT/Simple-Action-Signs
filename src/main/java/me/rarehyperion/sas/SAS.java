@@ -2,6 +2,7 @@ package me.rarehyperion.sas;
 
 import me.rarehyperion.sas.listeners.SignListener;
 import me.rarehyperion.sas.managers.ConfigManager;
+import me.rarehyperion.sas.managers.EconomyManager;
 import me.rarehyperion.sas.managers.SignManager;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -19,7 +20,9 @@ public final class SAS extends JavaPlugin implements Listener {
         this.saveDefaultConfig();
 
         final ConfigManager configManager = new ConfigManager(this);
-        this.signManager = new SignManager(configManager, this.getDataFolder());
+        final EconomyManager economyManager = new EconomyManager(this);
+
+        this.signManager = new SignManager(configManager, economyManager, this.getDataFolder());
         this.signManager.loadSigns();
 
         this.getServer().getPluginManager().registerEvents(new SignListener(this.signManager, configManager), this);

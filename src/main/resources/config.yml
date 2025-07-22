@@ -1,12 +1,10 @@
-# Currency symbol to display before costs on signs.
-currency-prefix: "&a$"
-
-# Command to execute when charging players for sign usage.
-# Placeholders: <player> = player name, <cost> = amount to charge.
-cost-command: "eco take <player> <cost>"
+economy:
+  enabled: true
+  prefix: "&a$"
 
 # Plugin messages.
 messages:
+  not-enough-money: "&cYou do not have enough money to do this."
   reload-success: "&aConfiguration reloaded!"
   action-create: "&aAction sign successfully created!"
   action-delete: "&cAction sign successfully removed!"

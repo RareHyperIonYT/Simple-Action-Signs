@@ -1,13 +1,18 @@
 name: SimpleActionSigns
 main: me.rarehyperion.sas.SAS
-version: '0.1.1'
-api-version: '1.13'
 authors: [RareHyperIon]
+website: https://github.com/RareHyperIonYT/Simple-Action-Signs
+version: '0.1.2'
+api-version: '1.13'
 load: STARTUP
+
+soft-depend: [Vault]
 
 commands:
   sas:
     description: "Reload the plugins configuration."
+    permission: sas.reload
+    usage: /sas reload
 
 permissions:
   sas.use:
