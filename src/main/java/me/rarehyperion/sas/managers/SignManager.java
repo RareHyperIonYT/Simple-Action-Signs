@@ -108,6 +108,8 @@ public class SignManager {
                     player.sendMessage(this.configManager.getInvalidActionMessage(split[0]));
                 }
             }
+
+            player.swingMainHand();
         }
     }
 
