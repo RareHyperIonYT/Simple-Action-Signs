@@ -48,15 +48,33 @@ Teleport to spawn
     enabled: true
     prefix: "&a$"
   
-  # Plugin messages.
-  messages:
-    not-enough-money: "&cYou do not have enough money to do this."
-    reload-success: "&aConfiguration reloaded!"
-    action-create: "&aAction sign successfully created!"
-    action-delete: "&cAction sign successfully removed!"
-    sneak-required: "&cYou need to sneak to do this."
+  language:
+    reload: "&aConfiguration successfully reloaded!"
+  
+    sign-created: "&aAction Sign successfully created!"
+    sign-deleted: "&cAction Sign successfully removed!"
+    sign-edited: "&eAction Sign successfully edited!"
+  
+    sneak-required: "&cYou need to be sneaking to destroy action signs."
     permission-use: "&cYou do not have permission to do this."
+    not-enough-money: "&cYou do not have enough money to do this."
     action-not-found: "&cThe action '<name>' does not exist. Did you mean to use a slash command?"
+  
+    list-signs:
+      none-found: "&eNo signs were found."
+      invalid-page: "&cThe page '<page>' doesn't exist. Maximum page is <totalPages>."
+  
+      title:
+        - "&3=== &bSign Actions &7(Page <page>/<totalPages>) &3==="
+        - "&7Total Signs: <totalSigns>"
+      element-format:
+        - "&3<index>. &b<key>"
+        - "  &7Placed by: &f<name>"
+        - "  &7Command: &f<command>"
+        - "  &7Description: &f<description>"
+        - "  &7Cost: <cost>"
+      footer:
+        - "&7Use &f/sas list <page> &7to navigate."
   ```
 
 </details>
