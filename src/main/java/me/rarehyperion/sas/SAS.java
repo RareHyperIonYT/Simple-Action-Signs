@@ -1,5 +1,6 @@
 package me.rarehyperion.sas;
 
+import me.rarehyperion.sas.commands.SASCommand;
 import me.rarehyperion.sas.listeners.SignListener;
 import me.rarehyperion.sas.managers.ConfigManager;
 import me.rarehyperion.sas.managers.EconomyManager;
@@ -9,11 +10,15 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Objects;
-
 public final class SAS extends JavaPlugin implements Listener {
 
+    public static String VERSION = "UNKNOWN";
     private SignManager signManager;
+
+    @Override
+    public void onLoad() {
+        VERSION = this.getDescription().getVersion();
+    }
 
     @Override
     public void onEnable() {
@@ -27,16 +32,10 @@ public final class SAS extends JavaPlugin implements Listener {
 
         this.getServer().getPluginManager().registerEvents(new SignListener(this, this.signManager, configManager), this);
 
-        // While Lambdas are concise and easy to use, it can hurt readability a lot.
-        // Instead, use a dedicated CommandExecutor class like normal for the sake of your future self.
-        Objects.requireNonNull(this.getCommand("sas")).setExecutor((sender, command, label, args) -> {
-            if(!sender.hasPermission("sas.reload"))
-                return true;
+        final SASCommand executor = new SASCommand(configManager, this.signManager);
 
-            configManager.reload();
-            sender.sendMessage(configManager.getReloadMessage());
-            return true;
-        });
+        this.getCommand("sas").setExecutor(executor);
+        this.getCommand("sas").setTabCompleter(executor);
     }
 
     @Override

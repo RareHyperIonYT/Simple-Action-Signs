@@ -24,6 +24,10 @@ public class SignAction implements Serializable {
         this.cost = cost;
     }
 
+    public String getOwner() {
+        return this.owner;
+    }
+
     public String getCommand() {
         return this.command;
     }

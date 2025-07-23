@@ -59,6 +59,10 @@ public class SignManager {
         return this.validSigns.containsKey(key);
     }
 
+    public Map<String, SignAction> getSigns() {
+        return this.validSigns;
+    }
+
     public boolean isValidFormat(final String line) {
         return line != null && this.bracketPattern.matcher(line).find();
     }

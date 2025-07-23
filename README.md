@@ -21,11 +21,11 @@ Teleport to spawn
 ```
 
 ## Permissions
-| Permission     | Description                        | Default |
-|----------------|------------------------------------|---------|
-| `sas.create`   | Create and destroy command signs   | op      |
-| `sas.use`      | Use/interact with command signs    | op      |
-| `sas.reload`   | Reload plugin configuration        | op      |
+| Permission         | Description                            | Default |
+|--------------------|----------------------------------------|---------|
+| `sas.admin.reload` | Permission for reloading the plugin    | op      |
+| `sas.admin`        | Create, edit, and destroy action signs | op      |
+| `sas.use`          | Use/interact with action signs         | op      |
 
 ## Placeholders
 | Placeholder      | Description                           |

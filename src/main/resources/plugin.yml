@@ -2,7 +2,7 @@ name: SimpleActionSigns
 main: me.rarehyperion.sas.SAS
 authors: [RareHyperIon]
 website: https://github.com/RareHyperIonYT/Simple-Action-Signs
-version: '0.1.2'
+version: '0.1.3'
 api-version: '1.13'
 load: STARTUP
 
